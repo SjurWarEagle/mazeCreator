@@ -7,14 +7,12 @@ import de.tkunkel.maze.types.Maze;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
-@EnableScheduling
-@EntityScan(basePackageClasses = Starter.class)
+//@EnableScheduling
+//@EntityScan(basePackageClasses = Starter.class)
 public class Starter {
     @Autowired
     Configuration configuration;
@@ -34,7 +32,7 @@ public class Starter {
     @PostConstruct
     private void start() {
         Maze maze = generator.generate(10, 10);
-        renderer.render(maze);
+        renderer.renderToFile(maze);
     }
 
 }

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Maze {
-    private static final int SIZE_OF_CELL = 5;
     private final int width;
     private final int height;
     private final Location start;
@@ -34,66 +33,26 @@ public class Maze {
     public Cell getCell(int x, int y) {
         return Arrays.stream(cells).filter(cell ->
                         cell.getLocation().getY() == y && cell.getLocation().getX() == x
-                ).collect(Collectors.toList())
+                ).toList()
                 .get(0);
     }
 
     @Override
     public String toString() {
-        char[][] cellChars = new char[SIZE_OF_CELL * width][SIZE_OF_CELL * height];
-        for (int x = 0; x < width * SIZE_OF_CELL; x++) {
-            for (int y = 0; y < height * SIZE_OF_CELL; y++) {
-                cellChars[x][y] = ' ';
-            }
-        }
-
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                int line = 0;
-                char[][] singleCellChars = getCell(x, y).toCharArray();
-                for (char[] singleCellRowChars : singleCellChars) {
-                    int i = 0;
-                    for (char singleCellRowChar : singleCellRowChars) {
-                        cellChars[x * SIZE_OF_CELL + i][y * SIZE_OF_CELL + line] = singleCellRowChar;
-                        i++;
-                    }
-                    line++;
-                }
-            }
-        }
-
-        StringBuilder cellsText = new StringBuilder();
-        cellsText.append("\n");
-
-        for (int h = 0; h < SIZE_OF_CELL; h++) {
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    char[][] chars = getCell(x, y).toCharArray();
-                    for (int j = 0; j < SIZE_OF_CELL; j++) {
-                        cellsText.append(chars[h][j]);
-                    }
-                }
-                cellsText.append("\n");
-            }
-        }
-
-//        for (char[] cellChar : cellChars) {
-//            cellsText.append(new String(cellChar));
-//            cellsText.append("\n");
-//        }
-        cellsText.append("\n");
-
         return "Maze{" +
                 "width=" + width +
                 ", height=" + height +
                 ", start=" + start +
                 ", finish=" + finish +
-                ", cells=" + cellsText +
                 '}';
     }
 
     public Location getStart() {
         return start;
+    }
+
+    public Location getFinish() {
+        return finish;
     }
 
     public List<Cell> getUnvisitedOrthogonalNeighbours(Cell current) {
@@ -117,6 +76,7 @@ public class Maze {
 
         rc = rc.stream()
                 .filter(cell -> !cell.wasVisited())
+                .filter(cell -> !cell.isBlocker())
                 .collect(Collectors.toList());
         return rc;
     }

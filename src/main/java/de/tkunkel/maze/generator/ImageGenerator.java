@@ -44,21 +44,24 @@ public class ImageGenerator {
             for (int y = 0; y < height; y++) {
                 Color pixel = new Color(image.getRGB(x, y));
 
-                if (colorsAreSimilar(pixel,spaceColor)) {
-//#                    return new Location(x, y);
+                if ((!colorsAreSimilar(pixel, spaceColor))
+                        && !(colorsAreSimilar(pixel, startColor))
+                        && !(colorsAreSimilar(pixel, finishColor))) {
+                    maze.getCell(x, y).markBlocker();
                 }
             }
         }
     }
 
     protected boolean colorsAreSimilar(Color color1, Color color2) {
+        int tolerance = 100;
         int r1 = color1.getRed();
         int g1 = color1.getGreen();
         int b1 = color1.getBlue();
-         int r2 = color2.getRed();
+        int r2 = color2.getRed();
         int g2 = color2.getGreen();
         int b2 = color2.getBlue();
-        return  ((Math.abs(r1 - r2) < 50) && (Math.abs(g1 - g2) < 50) && (Math.abs(b1 - b2) < 50));
+        return ((Math.abs(r1 - r2) < tolerance) && (Math.abs(g1 - g2) < tolerance) && (Math.abs(b1 - b2) < tolerance));
     }
 
     private Location findStartInImage(BufferedImage image, Color color) {
@@ -66,7 +69,7 @@ public class ImageGenerator {
     }
 
     private Location findFinishInImage(BufferedImage image, Color color) {
-        return null;
+        return findPixelInImage(image, color);
     }
 
     protected Location findPixelInImage(BufferedImage image, Color color) {
