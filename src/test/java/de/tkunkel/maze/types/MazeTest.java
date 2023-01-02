@@ -1,4 +1,4 @@
-package org.de.tkunkel.maze.types;
+package de.tkunkel.maze.types;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

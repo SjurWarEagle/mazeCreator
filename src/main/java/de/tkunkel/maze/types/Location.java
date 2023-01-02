@@ -1,4 +1,4 @@
-package org.de.tkunkel.maze.types;
+package de.tkunkel.maze.types;
 
 public class Location {
     private int x;

@@ -1,10 +1,9 @@
-package org.de.tkunkel.maze;
+package de.tkunkel.maze;
 
-import org.de.tkunkel.maze.config.Configuration;
-import org.de.tkunkel.maze.generator.EmptyPlaneGenerator;
-import org.de.tkunkel.maze.generator.MazeGenerator;
-import org.de.tkunkel.maze.output.RenderHtml;
-import org.de.tkunkel.maze.types.Maze;
+import de.tkunkel.maze.config.Configuration;
+import de.tkunkel.maze.generator.EmptyPlaneGenerator;
+import de.tkunkel.maze.output.RenderHtml;
+import de.tkunkel.maze.types.Maze;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

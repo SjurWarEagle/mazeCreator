@@ -1,4 +1,4 @@
-package org.de.tkunkel.maze.config;
+package de.tkunkel.maze.config;
 
 import com.google.gson.Gson;
 import org.springframework.stereotype.Component;

@@ -1,8 +1,8 @@
-package org.de.tkunkel.maze.generator;
+package de.tkunkel.maze.generator;
 
-import org.de.tkunkel.maze.types.Cell;
-import org.de.tkunkel.maze.types.Location;
-import org.de.tkunkel.maze.types.Maze;
+import de.tkunkel.maze.types.Cell;
+import de.tkunkel.maze.types.Location;
+import de.tkunkel.maze.types.Maze;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
