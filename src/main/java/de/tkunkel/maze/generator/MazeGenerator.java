@@ -26,7 +26,7 @@ import java.util.Stack;
  */
 @Service
 public class MazeGenerator {
-    private Random randomGenerator = new Random();
+    private final Random randomGenerator = new Random();
 
     public void fill(Maze maze) {
         Stack<Cell> stack = new Stack<>();

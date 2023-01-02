@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EmptyPlaneGenerator {
-    private MazeGenerator mazeGenerator;
+    private final MazeGenerator mazeGenerator;
 
     public EmptyPlaneGenerator(MazeGenerator mazeGenerator) {
         this.mazeGenerator = mazeGenerator;

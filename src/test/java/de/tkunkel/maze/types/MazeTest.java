@@ -21,9 +21,6 @@ class MazeTest {
     @Test
     public void unvisitedNeighbours_noneVisited_Corner_NW() {
         Maze maze = new Maze(3, 3, new Location(0, 0), new Location(2, 2));
-//        maze.getCell(new Location(1, 0)).markVisited();
-//        maze.getCell(new Location(0, 1)).markVisited();
-//        maze.getCell(new Location(1, 1)).markVisited();
         List<Cell> unvisitedNeighbours = maze.getUnvisitedOrthogonalNeighbours(maze.getCell(0, 0));
         Assertions.assertNotNull(unvisitedNeighbours);
         Assertions.assertEquals(2, unvisitedNeighbours.size());
@@ -33,9 +30,6 @@ class MazeTest {
     @Test
     public void unvisitedNeighbours_noneVisited_Corner_SE() {
         Maze maze = new Maze(2, 2, new Location(1, 1), new Location(2, 2));
-//        maze.getCell(new Location(1, 0)).markVisited();
-//        maze.getCell(new Location(0, 1)).markVisited();
-//        maze.getCell(new Location(1, 1)).markVisited();
         List<Cell> unvisitedNeighbours = maze.getUnvisitedOrthogonalNeighbours(maze.getCell(1, 1));
         Assertions.assertNotNull(unvisitedNeighbours);
         Assertions.assertEquals(2, unvisitedNeighbours.size());
@@ -44,9 +38,6 @@ class MazeTest {
     @Test
     public void unvisitedNeighbours_noneVisited_center() {
         Maze maze = new Maze(3, 3, new Location(1, 1), new Location(3, 3));
-//        maze.getCell(new Location(1, 0)).markVisited();
-//        maze.getCell(new Location(0, 1)).markVisited();
-//        maze.getCell(new Location(1, 1)).markVisited();
         List<Cell> unvisitedNeighbours = maze.getUnvisitedOrthogonalNeighbours(maze.getCell(1, 1));
         Assertions.assertNotNull(unvisitedNeighbours);
         Assertions.assertEquals(4, unvisitedNeighbours.size());
@@ -55,7 +46,6 @@ class MazeTest {
     @Test
     public void unvisitedNeighbours_eastUnvisited() {
         Maze maze = new Maze(3, 3, new Location(0, 0), new Location(2, 2));
-//        maze.getCell(new Location(1, 0)).markVisited();
         maze.getCell(new Location(0, 1)).markVisited();
         maze.getCell(new Location(1, 1)).markVisited();
         List<Cell> unvisitedNeighbours = maze.getUnvisitedOrthogonalNeighbours(maze.getCell(0, 0));
@@ -68,7 +58,6 @@ class MazeTest {
         Maze maze = new Maze(3, 3, new Location(0, 0), new Location(2, 2));
         maze.getCell(new Location(1, 0)).markVisited();
         maze.getCell(new Location(0, 1)).markVisited();
-//        maze.getCell(new Location(1, 1)).markVisited();
         List<Cell> unvisitedNeighbours = maze.getUnvisitedOrthogonalNeighbours(maze.getCell(0, 0));
         Assertions.assertNotNull(unvisitedNeighbours);
         Assertions.assertEquals(0, unvisitedNeighbours.size());

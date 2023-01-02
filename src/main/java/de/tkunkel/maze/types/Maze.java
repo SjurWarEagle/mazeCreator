@@ -82,9 +82,6 @@ public class Maze {
     }
 
     public void removeWalls(Cell cell1, Cell cell2) {
-//        System.out.println(cell1.getLocation());
-//        System.out.println(cell2.getLocation());
-//        System.out.println();
         if (cell1.getLocation().getX() < cell2.getLocation().getX()) {
             // cell1 <- cell2
             cell1.removeWall(Direction.EAST);

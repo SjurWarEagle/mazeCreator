@@ -17,7 +17,7 @@ import java.nio.file.Path;
  */
 @Service
 public class ImageGenerator {
-    Logger LOG = LoggerFactory.getLogger(ImageGenerator.class);
+    private final Logger LOG = LoggerFactory.getLogger(ImageGenerator.class);
 
     public Maze createFromImage(Path imageFile) throws IOException {
         BufferedImage image = ImageIO.read(imageFile.toFile());

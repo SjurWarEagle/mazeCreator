@@ -17,7 +17,7 @@ public class RenderHtml {
     @Autowired
     Configuration configuration;
 
-    Logger LOG = LoggerFactory.getLogger(RenderHtml.class);
+    private final Logger LOG = LoggerFactory.getLogger(RenderHtml.class);
 
     public void renderToFile(Maze maze) {
         Path output = Paths.get(configuration.getPathOutput(), "index.html");
@@ -92,7 +92,7 @@ public class RenderHtml {
             bw.newLine();
             bw.write("<body>");
             bw.newLine();
-            bw.write("\t<table border=\"0\" cellspacing=\"0\" style=\"margin=0;padding=0\">");
+            bw.write("\t<table border=\"0\" cellspacing=\"0\" style=\"margin:0; padding:0\">");
             bw.newLine();
             for (int y = 0; y < maze.getHeight(); y++) {
                 bw.write("\t\t<tr>");
