@@ -55,6 +55,39 @@ public class Maze {
         return finish;
     }
 
+    public List<Cell> getWalkableOrthogonalNeighbours(Cell current) {
+        List<Cell> rc = new ArrayList<>();
+        if (current.getLocation().getX() > 0) {
+            //get western
+            if (!current.isWestWall()) {
+                rc.add(getCell(current.getLocation().getX() - 1, current.getLocation().getY()));
+            }
+        }
+        if (current.getLocation().getX() < width - 1) {
+            //get eastern
+            if (!current.isEastWall()) {
+                rc.add(getCell(current.getLocation().getX() + 1, current.getLocation().getY()));
+            }
+        }
+        if (current.getLocation().getY() > 0) {
+            //get northern
+            if (!current.isNorthWall()) {
+                rc.add(getCell(current.getLocation().getX(), current.getLocation().getY() - 1));
+            }
+        }
+        if (current.getLocation().getY() < height - 1) {
+            //get southern
+            if (!current.isSouthWall()) {
+                rc.add(getCell(current.getLocation().getX(), current.getLocation().getY() + 1));
+            }
+        }
+
+        rc = rc.stream()
+                .filter(cell -> !cell.isBlocker())
+                .collect(Collectors.toList());
+        return rc;
+    }
+
     public List<Cell> getUnvisitedOrthogonalNeighbours(Cell current) {
         List<Cell> rc = new ArrayList<>();
         if (current.getLocation().getX() > 0) {

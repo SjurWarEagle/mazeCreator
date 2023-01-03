@@ -1,5 +1,7 @@
 package de.tkunkel.maze.generator;
 
+import de.tkunkel.maze.types.Cell;
+import de.tkunkel.maze.types.Direction;
 import de.tkunkel.maze.types.Location;
 import de.tkunkel.maze.types.Maze;
 import org.springframework.stereotype.Service;
@@ -9,17 +11,30 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EmptyPlaneGenerator {
-    private final MazeGenerator mazeGenerator;
 
-    public EmptyPlaneGenerator(MazeGenerator mazeGenerator) {
-        this.mazeGenerator = mazeGenerator;
+    public EmptyPlaneGenerator() {
     }
 
-    public Maze generate(int width, int height) {
-        Location start = new Location(0, 0);
-        Location finish = new Location(width - 2, height - 2);
+    public Maze generate(Location start, Location finish, int width, int height) {
         Maze maze = new Maze(width, height, start, finish);
-        mazeGenerator.fill(maze);
+
+        for (int x = 0; x < maze.getWidth(); x++) {
+            for (int y = 0; y < maze.getHeight(); y++) {
+                Cell cell = maze.getCell(x, y);
+                if (y != 0) {
+                    cell.removeWall(Direction.NORTH);
+                }
+                if (x != maze.getWidth() - 1) {
+                    cell.removeWall(Direction.EAST);
+                }
+                if (y != maze.getHeight() - 1) {
+                    cell.removeWall(Direction.SOUTH);
+                }
+                if (x != 0) {
+                    cell.removeWall(Direction.WEST);
+                }
+            }
+        }
         return maze;
     }
 }

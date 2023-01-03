@@ -41,8 +41,31 @@ public class RenderHtml {
             bw.newLine();
             bw.write(".cell {");
             bw.newLine();
-            bw.write("width: 2em;");
-            bw.write("height: 2em;");
+            bw.write("width: 25px;");
+            bw.newLine();
+            bw.write("height: 25px;");
+            bw.newLine();
+            bw.write("font-size: 25px;");
+            bw.newLine();
+            bw.write("border: 4px solid white;");
+            bw.newLine();
+            bw.write("}");
+            bw.newLine();
+            bw.write("table {");
+            bw.newLine();
+            bw.write("margin: 10%");
+            bw.newLine();
+            bw.write("}");
+            bw.newLine();
+            bw.write(".solution {");
+            bw.newLine();
+            bw.write("background-color: lightblue;");
+            bw.newLine();
+            bw.write("}");
+           bw.newLine();
+            bw.write(".finish {");
+            bw.newLine();
+            bw.write("background-color: green;");
             bw.newLine();
             bw.write("}");
             bw.newLine();
@@ -61,6 +84,8 @@ public class RenderHtml {
             bw.write(".blocker {");
             bw.newLine();
             bw.write("background-color: black;");
+            bw.newLine();
+            bw.write("border: unset;");
             bw.newLine();
             bw.write("}");
             bw.newLine();
@@ -112,6 +137,9 @@ public class RenderHtml {
                                 && cell.getLocation().getY() == maze.getFinish().getY()) {
                             classes += "finish ";
                         }
+                        if (cell.isPartOfSolution()) {
+                            classes += "solution ";
+                        }
                         if (cell.isNorthWall()) {
                             classes += "north ";
                         }
@@ -128,7 +156,7 @@ public class RenderHtml {
                     bw.write(classes);
                     bw.write("\">");
                     bw.write("&nbsp;");
-                    //bw.write(cell.getLocation().toString());
+                    bw.write(""+cell.getDistanceFromStart());
                     bw.write("</td>");
                     bw.newLine();
                 }
