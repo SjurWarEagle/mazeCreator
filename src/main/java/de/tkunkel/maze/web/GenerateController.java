@@ -1,25 +1,34 @@
 package de.tkunkel.maze.web;
 
+import com.google.gson.Gson;
 import de.tkunkel.maze.generator.ImageGenerator;
 import de.tkunkel.maze.generator.MazeGenerator;
 import de.tkunkel.maze.generator.RectangleGenerator;
 import de.tkunkel.maze.output.RenderHtml;
 import de.tkunkel.maze.output.RenderImage;
 import de.tkunkel.maze.solver.DijkstraSolver;
+import de.tkunkel.maze.types.GenerationWithSolution;
 import de.tkunkel.maze.types.Location;
 import de.tkunkel.maze.types.Maze;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 
 @RestController()
 public class GenerateController {
+    private final Gson gson = new Gson();
+
     private final DijkstraSolver dijkstraSolver;
     private final RectangleGenerator generator;
     private final ImageGenerator imageGenerator;
@@ -89,12 +98,75 @@ public class GenerateController {
         dijkstraSolver.solve(maze);
 
         String format = "JPG";
-        BufferedImage bi = renderImage.render(maze, 25, 4);
+        BufferedImage bi = renderImage.render(maze, 25, 4,false);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(bi, format, baos);
-        byte[] bytes = baos.toByteArray();
 
-        return bytes;
+        return baos.toByteArray();
+    }
+
+
+    public static File multipartToFile(MultipartFile multipart) throws IllegalStateException, IOException {
+        File convFile = File.createTempFile(multipart.getName(), "tmp");
+        multipart.transferTo(convFile);
+        return convFile;
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ErrorResponse> handleException(
+            Exception exception,
+            WebRequest request
+    ) {
+        return buildErrorResponse(
+                exception,
+                exception.getMessage(),
+                HttpStatus.NOT_FOUND);
+    }
+
+    private ResponseEntity<ErrorResponse> buildErrorResponse(
+            Exception exception,
+            String message,
+            HttpStatus httpStatus
+    ) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                httpStatus.value(),
+                message
+        );
+
+        errorResponse.setStackTrace(ExceptionUtils.getStackTrace(exception));
+        return ResponseEntity.status(httpStatus).body(errorResponse);
+    }
+
+
+    @RequestMapping(value = "/generate/forWebWithSolution",
+            method = RequestMethod.PUT,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public @ResponseBody String forWeb(@RequestPart(value = "sourceImage") final MultipartFile aFile) throws IOException {
+        Path path = Path.of(multipartToFile(aFile).toURI());
+        BufferedImage read = ImageIO.read(path.toFile());
+        if ((read.getWidth() > 100) || (read.getHeight() > 100)) {
+            throw new IOException("Image too big, max width/height=500 pixels");
+        }
+
+        Maze maze = imageGenerator.createFromImage(path);
+        mazeGenerator.fill(maze);
+
+        String format = "JPG";
+        BufferedImage bi = renderImage.render(maze, 25, 4,false);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(bi, format, baos);
+
+        dijkstraSolver.solve(maze);
+        BufferedImage biSolution = renderImage.render(maze, 25, 4,true);
+        ByteArrayOutputStream baosSolution = new ByteArrayOutputStream();
+        ImageIO.write(biSolution, format, baosSolution);
+
+        return gson.toJson(new GenerationWithSolution(
+                Base64.getEncoder().encodeToString(baos.toByteArray()),
+                Base64.getEncoder().encodeToString(baosSolution.toByteArray()))
+        );
     }
 
 }

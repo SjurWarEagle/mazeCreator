@@ -76,6 +76,7 @@ public class ImageGenerator {
         int wishR = color.getRed();
         int wishG = color.getGreen();
         int wishB = color.getBlue();
+        int threshold =100;
 
         int width = image.getWidth();
         int height = image.getHeight();
@@ -85,7 +86,7 @@ public class ImageGenerator {
                 int r = pixel.getRed();
                 int g = pixel.getGreen();
                 int b = pixel.getBlue();
-                if ((Math.abs(r - wishR) < 50) && (Math.abs(g - wishG) < 50) && (Math.abs(b - wishB) < 50)) {
+                if ((Math.abs(r - wishR) < threshold) && (Math.abs(g - wishG) < threshold) && (Math.abs(b - wishB) < threshold)) {
                     return new Location(x, y);
                 }
             }
