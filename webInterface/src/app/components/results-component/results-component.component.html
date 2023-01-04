@@ -1,0 +1,10 @@
+<div
+  *ngIf="mazeGenerationRcServiceService.mazeBase64"
+>
+<!--  <img src="data:image/jpg;base64,{{mazeGenerationRcServiceService.maze}}"/>-->
+  <img [src]="mazeGenerationRcServiceService.mazeBase64"/>
+  <hr>
+  <img [src]="mazeGenerationRcServiceService.imgDataMazeWithSolutionBase64"/>
+
+</div>
+
