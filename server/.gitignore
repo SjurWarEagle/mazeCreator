@@ -1,3 +1,5 @@
-.idea
+target
+.idea/*
 !.idea/runConfigurations
 *iml
+output/*
