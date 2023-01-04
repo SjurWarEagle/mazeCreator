@@ -49,7 +49,7 @@ public class GenerateController {
         this.renderImage = renderImage;
     }
 
-    @RequestMapping(value = "/generate/text",
+    @RequestMapping(value = "/api/generate/text",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE
     )
@@ -61,7 +61,7 @@ public class GenerateController {
         return renderer.renderToString(maze);
     }
 
-    @RequestMapping(value = "/generate/small",
+    @RequestMapping(value = "/api/generate/small",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE
     )
@@ -73,7 +73,7 @@ public class GenerateController {
         return renderer.renderToString(maze);
     }
 
-    @RequestMapping(value = "/generate/fromImage",
+    @RequestMapping(value = "/api/generate/fromImage",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE
     )
@@ -86,7 +86,7 @@ public class GenerateController {
     }
 
 
-    @RequestMapping(value = "/generate/fromImageToImage",
+    @RequestMapping(value = "/api/generate/fromImageToImage",
             method = RequestMethod.GET,
             produces = MediaType.IMAGE_JPEG_VALUE
     )
@@ -97,7 +97,7 @@ public class GenerateController {
         dijkstraSolver.solve(maze);
 
         String format = "JPG";
-        BufferedImage bi = renderImage.render(maze, 25, 4,false);
+        BufferedImage bi = renderImage.render(maze, 25, 4, false);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(bi, format, baos);
 
@@ -136,8 +136,7 @@ public class GenerateController {
         return ResponseEntity.status(httpStatus).body(errorResponse);
     }
 
-
-    @RequestMapping(value = "/generate/forWebWithSolution",
+    @RequestMapping(value = "/api/generate/forWebWithSolution",
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -152,12 +151,12 @@ public class GenerateController {
         mazeGenerator.fill(maze);
 
         String format = "JPG";
-        BufferedImage bi = renderImage.render(maze, 25, 4,false);
+        BufferedImage bi = renderImage.render(maze, 25, 4, false);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(bi, format, baos);
 
         dijkstraSolver.solve(maze);
-        BufferedImage biSolution = renderImage.render(maze, 25, 4,true);
+        BufferedImage biSolution = renderImage.render(maze, 25, 4, true);
         ByteArrayOutputStream baosSolution = new ByteArrayOutputStream();
         ImageIO.write(biSolution, format, baosSolution);
 

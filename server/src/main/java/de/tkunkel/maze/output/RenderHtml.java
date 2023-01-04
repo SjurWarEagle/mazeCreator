@@ -1,33 +1,18 @@
 package de.tkunkel.maze.output;
 
-import de.tkunkel.maze.config.Configuration;
 import de.tkunkel.maze.types.Cell;
 import de.tkunkel.maze.types.Maze;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @Service
 public class RenderHtml {
-    @Autowired
-    Configuration configuration;
 
     private final Logger LOG = LoggerFactory.getLogger(RenderHtml.class);
 
-    public void renderToFile(Maze maze) {
-        Path output = Paths.get(configuration.getPathOutput(), "index.html");
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(output.toFile()))) {
-            bw.write(renderToString(maze));
-            bw.flush();
-        } catch (IOException e) {
-            LOG.error(e.getMessage(), e);
-        }
-    }
 
     public String renderToString(Maze maze) {
         try (StringWriter sw = new StringWriter();

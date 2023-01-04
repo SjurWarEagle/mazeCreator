@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  maze-generator:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "90:90"

@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Starter" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
     <envs>
-      <env name="CONFIG_FILE" value="E:\IdeaProjects\maze\config\config_private.json" />
+      <env name="CONFIG_FILE" value="E:\IdeaProjects\maze\server\config\config_private.json" />
     </envs>
     <module name="mazeCreator" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="de.tkunkel.maze.Starter" />
