@@ -52,7 +52,14 @@ RUN . $NVM_DIR/nvm.sh && npm run build
 
 #TODO convert to copy, this is im this git we just cloned, no need to get it from outside
 ADD Docker/nginx/nginx.conf /etc/nginx/conf.d/default.conf
-RUN rm -rf /etc/apt/apt.conf.d/90nginx
+#RUN rm -rf /etc/apt/apt.conf.d/90nginx
+# Download nginx startup script
+RUN wget -O init-deb.sh https://www.linode.com/docs/assets/660-init-deb.sh
+# Move the script to the init.d directory & make executable
+RUN mv init-deb.sh /etc/init.d/nginx
+RUN chmod +x /etc/init.d/nginx
+# Add nginx to the system startup
+RUN /usr/sbin/update-rc.d -f nginx defaults
 
 ADD Docker/start.sh /
 RUN chmod +x /start.sh \
