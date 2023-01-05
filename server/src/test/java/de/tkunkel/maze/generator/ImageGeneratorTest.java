@@ -25,8 +25,8 @@ class ImageGeneratorTest {
         Path imageFile=Paths.get(resource.toURI());
         Maze mazeFromFile = generator.createFromImage(imageFile);
         Assertions.assertNotNull(mazeFromFile);
-        Assertions.assertEquals(20,mazeFromFile.getWidth());
-        Assertions.assertEquals(20,mazeFromFile.getWidth());
+        Assertions.assertEquals(100,mazeFromFile.getWidth());
+        Assertions.assertEquals(100,mazeFromFile.getWidth());
     }
 
     @Test
