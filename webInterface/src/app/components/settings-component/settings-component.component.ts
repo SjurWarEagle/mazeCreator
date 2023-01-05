@@ -7,7 +7,7 @@ import {MazeGenerationRcServiceService} from "../../services/maze-generation-rc-
   styleUrls: ['./settings-component.component.css']
 })
 export class SettingsComponentComponent {
-  private file?: File;
+  public file?: File;
 
   constructor(public mazeGenerationRcServiceService: MazeGenerationRcServiceService) {
   }

@@ -1,7 +1,7 @@
 <input type="file" class="file-input"
        (change)="onFileSelected($event)" #fileUpload>
 
-<div class="file-upload">
+<span class="file-upload">
 
   {{(mazeGenerationRcServiceService.fileName|async) || "No file uploaded yet."}}
 
@@ -9,9 +9,10 @@
           (click)="fileUpload.click()">
     <mat-icon>attach_file</mat-icon>
   </button>
-</div>
+</span>
 
 <button
   (click)="generateNewMaze()"
->Generate Maze
+  *ngIf="file"
+>    <mat-icon>refresh</mat-icon>
 </button>
