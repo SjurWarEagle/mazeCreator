@@ -61,6 +61,8 @@ RUN chmod +x /etc/init.d/nginx
 # Add nginx to the system startup
 RUN /usr/sbin/update-rc.d -f nginx defaults
 
+EXPOSE 90
+
 ADD Docker/start.sh /
 RUN chmod +x /start.sh \
   && dos2unix /start.sh
