@@ -18,6 +18,18 @@ class ImageGeneratorTest {
 
 
     @Test
+    public void createFromImage_mediumImage() throws URISyntaxException, IOException {
+        ImageGenerator generator=new ImageGenerator();
+        URL resource = getClass().getResource("100x100.jpg");
+        Assertions.assertNotNull(resource);
+        Path imageFile=Paths.get(resource.toURI());
+        Maze mazeFromFile = generator.createFromImage(imageFile);
+        Assertions.assertNotNull(mazeFromFile);
+        Assertions.assertEquals(20,mazeFromFile.getWidth());
+        Assertions.assertEquals(20,mazeFromFile.getWidth());
+    }
+
+    @Test
     public void createFromImage() throws URISyntaxException, IOException {
         ImageGenerator generator=new ImageGenerator();
         URL resource = getClass().getResource("maze_round_1.jpg");

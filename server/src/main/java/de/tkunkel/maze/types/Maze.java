@@ -1,7 +1,7 @@
 package de.tkunkel.maze.types;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,10 +31,12 @@ public class Maze {
     }
 
     public Cell getCell(int x, int y) {
-        return Arrays.stream(cells).filter(cell ->
-                        cell.getLocation().getY() == y && cell.getLocation().getX() == x
-                ).toList()
-                .get(0);
+        for (Cell cell : cells) {
+            if (cell.getLocation().getY() == y && cell.getLocation().getX() == x) {
+                return cell;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -89,28 +91,36 @@ public class Maze {
     }
 
     public List<Cell> getUnvisitedOrthogonalNeighbours(Cell current) {
-        List<Cell> rc = new ArrayList<>();
+        List<Cell> rc = new LinkedList<>();
         if (current.getLocation().getX() > 0) {
             // not at border
-            rc.add(getCell(current.getLocation().getX() - 1, current.getLocation().getY()));
+            Cell cell = getCell(current.getLocation().getX() - 1, current.getLocation().getY());
+            if (!cell.wasVisited() && !cell.isBlocker()){
+                rc.add(cell);
+            }
         }
         if (current.getLocation().getX() < width - 1) {
             // not at border
-            rc.add(getCell(current.getLocation().getX() + 1, current.getLocation().getY()));
+            Cell cell = getCell(current.getLocation().getX() + 1, current.getLocation().getY());
+            if (!cell.wasVisited() && !cell.isBlocker()){
+                rc.add(cell);
+            }
         }
         if (current.getLocation().getY() > 0) {
             // not at border
-            rc.add(getCell(current.getLocation().getX(), current.getLocation().getY() - 1));
+            Cell cell = getCell(current.getLocation().getX(), current.getLocation().getY() - 1);
+            if (!cell.wasVisited() && !cell.isBlocker()){
+                rc.add(cell);
+            }
         }
         if (current.getLocation().getY() < height - 1) {
             // not at border
-            rc.add(getCell(current.getLocation().getX(), current.getLocation().getY() + 1));
+            Cell cell = getCell(current.getLocation().getX(), current.getLocation().getY() + 1);
+            if (!cell.wasVisited() && !cell.isBlocker()){
+                rc.add(cell);
+            }
         }
 
-        rc = rc.stream()
-                .filter(cell -> !cell.wasVisited())
-                .filter(cell -> !cell.isBlocker())
-                .collect(Collectors.toList());
         return rc;
     }
 
