@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 public class RenderImage {
 
     public BufferedImage render(Maze maze, int sizeOfCell, int widthOfWall, boolean renderSolutionInfo) {
-        BufferedImage img = new BufferedImage(maze.getWidth() * sizeOfCell, maze.getHeight() * sizeOfCell, BufferedImage.TYPE_INT_RGB);
+        BufferedImage img = new BufferedImage(maze.getWidth() * sizeOfCell+widthOfWall, maze.getHeight() * sizeOfCell+widthOfWall, BufferedImage.TYPE_INT_RGB);
 
         for (int x = 0; x < maze.getWidth(); x++) {
             for (int y = 0; y < maze.getHeight(); y++) {
