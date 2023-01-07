@@ -31,10 +31,9 @@ public class Maze {
     }
 
     public Cell getCell(int x, int y) {
-        for (Cell cell : cells) {
-            if (cell.getLocation().getY() == y && cell.getLocation().getX() == x) {
-                return cell;
-            }
+        int pos = x + y * width;
+        if (pos < cells.length) {
+            return cells[pos];
         }
         return null;
     }
@@ -95,28 +94,28 @@ public class Maze {
         if (current.getLocation().getX() > 0) {
             // not at border
             Cell cell = getCell(current.getLocation().getX() - 1, current.getLocation().getY());
-            if (!cell.wasVisited() && !cell.isBlocker()){
+            if (!cell.wasVisited() && !cell.isBlocker()) {
                 rc.add(cell);
             }
         }
         if (current.getLocation().getX() < width - 1) {
             // not at border
             Cell cell = getCell(current.getLocation().getX() + 1, current.getLocation().getY());
-            if (!cell.wasVisited() && !cell.isBlocker()){
+            if (!cell.wasVisited() && !cell.isBlocker()) {
                 rc.add(cell);
             }
         }
         if (current.getLocation().getY() > 0) {
             // not at border
             Cell cell = getCell(current.getLocation().getX(), current.getLocation().getY() - 1);
-            if (!cell.wasVisited() && !cell.isBlocker()){
+            if (!cell.wasVisited() && !cell.isBlocker()) {
                 rc.add(cell);
             }
         }
         if (current.getLocation().getY() < height - 1) {
             // not at border
             Cell cell = getCell(current.getLocation().getX(), current.getLocation().getY() + 1);
-            if (!cell.wasVisited() && !cell.isBlocker()){
+            if (!cell.wasVisited() && !cell.isBlocker()) {
                 rc.add(cell);
             }
         }

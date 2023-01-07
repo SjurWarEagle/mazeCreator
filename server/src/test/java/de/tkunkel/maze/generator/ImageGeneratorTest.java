@@ -42,6 +42,18 @@ class ImageGeneratorTest {
     }
 
     @Test
+    public void createFromImage_200x200() throws URISyntaxException, IOException {
+        ImageGenerator generator=new ImageGenerator();
+        URL resource = getClass().getResource("200x200.jpg");
+        Assertions.assertNotNull(resource);
+        Path imageFile=Paths.get(resource.toURI());
+        Maze mazeFromFile = generator.createFromImage(imageFile);
+        Assertions.assertNotNull(mazeFromFile);
+        Assertions.assertEquals(200,mazeFromFile.getWidth());
+        Assertions.assertEquals(200,mazeFromFile.getWidth());
+    }
+
+    @Test
     public void findPixelInImage_simple() throws URISyntaxException, IOException {
         ImageGenerator generator=new ImageGenerator();
         URL resource = getClass().getResource("maze_round_1.jpg");

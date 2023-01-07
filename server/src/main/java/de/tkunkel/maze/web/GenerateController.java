@@ -143,8 +143,8 @@ public class GenerateController {
     public @ResponseBody String forWeb(@RequestPart(value = "sourceImage") final MultipartFile aFile) throws IOException {
         Path path = Path.of(multipartToFile(aFile).toURI());
         BufferedImage read = ImageIO.read(path.toFile());
-        if ((read.getWidth() > 100) || (read.getHeight() > 100)) {
-            throw new IOException("Image too big, max width/height=500 pixels");
+        if ((read.getWidth() > 300) || (read.getHeight() > 300)) {
+            throw new IOException("Image too big, max width/height=300 pixels");
         }
 
         Maze maze = imageGenerator.createFromImage(path);

@@ -29,19 +29,19 @@ public class RenderImage {
         Graphics g = img.getGraphics();
         if (cell.isBlocker()) {
             g.setColor(Color.DARK_GRAY);
-            g.fillRect(x, y, x + sizeOfCell, y + sizeOfCell);
+            fillRect(g,x, y, x + sizeOfCell, y + sizeOfCell);
         } else {
             g.setColor(Color.WHITE);
-            g.fillRect(x, y, x + sizeOfCell, y + sizeOfCell);
+            fillRect(g,x, y, x + sizeOfCell, y + sizeOfCell);
             if (cell.getLocation().equals(maze.getStart())) {
                 g.setColor(Color.RED);
-                g.fillRect(x, y, x + sizeOfCell, y + sizeOfCell);
+                fillRect(g,x, y, x + sizeOfCell, y + sizeOfCell);
             } else if (cell.getLocation().equals(maze.getFinish())) {
                 g.setColor(Color.GREEN);
-                g.fillRect(x, y, x + sizeOfCell, y + sizeOfCell);
+                fillRect(g,x, y, x + sizeOfCell, y + sizeOfCell);
             } else if (cell.isPartOfSolution() && renderSolutionInfo) {
                 g.setColor(new Color(0x4D99DA));
-                g.fillRect(x, y, x + sizeOfCell, y + sizeOfCell);
+                fillRect(g,x, y, x + sizeOfCell, y + sizeOfCell);
             }
 
             //walls
@@ -59,5 +59,12 @@ public class RenderImage {
                 g.drawLine(x, y, x, y + sizeOfCell);
             }
         }
+    }
+
+    private void fillRect(Graphics g, int x1, int y1, int x2, int y2) {
+        for (int i=0;i<(x2-x1);i++){
+            g.drawLine(x1+i, y1, x2+i, y2);
+        }
+
     }
 }

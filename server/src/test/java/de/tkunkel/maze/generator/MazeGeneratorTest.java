@@ -3,14 +3,12 @@ package de.tkunkel.maze.generator;
 import de.tkunkel.maze.types.Location;
 import de.tkunkel.maze.types.Maze;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.StopWatch;
 
 class MazeGeneratorTest {
 
     @Test
-    @Disabled
     public void test_100() {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
@@ -25,7 +23,6 @@ class MazeGeneratorTest {
     }
 
     @Test
-    @Disabled
     public void test_200() {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
