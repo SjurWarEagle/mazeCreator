@@ -1,10 +1,16 @@
 <div
   *ngIf="mazeGenerationRcServiceService.mazeBase64"
 >
-<!--  <img src="data:image/jpg;base64,{{mazeGenerationRcServiceService.maze}}"/>-->
   <img [src]="mazeGenerationRcServiceService.mazeBase64"/>
-  <hr>
-  <img [src]="mazeGenerationRcServiceService.imgDataMazeWithSolutionBase64"/>
-
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Solution
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <img [src]="mazeGenerationRcServiceService.imgDataMazeWithSolutionBase64"/>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
 
