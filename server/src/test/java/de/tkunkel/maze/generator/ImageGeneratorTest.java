@@ -19,11 +19,11 @@ class ImageGeneratorTest {
 
     @Test
     public void createFromImage_mediumImage() throws URISyntaxException, IOException {
-        ImageGenerator generator=new ImageGenerator();
+        MazeFromImageGenerator generator=new MazeFromImageGenerator();
         URL resource = getClass().getResource("100x100.jpg");
         Assertions.assertNotNull(resource);
         Path imageFile=Paths.get(resource.toURI());
-        Maze mazeFromFile = generator.createFromImage(imageFile);
+        Maze mazeFromFile = generator.createFromImageFile(imageFile);
         Assertions.assertNotNull(mazeFromFile);
         Assertions.assertEquals(100,mazeFromFile.getWidth());
         Assertions.assertEquals(100,mazeFromFile.getWidth());
@@ -31,11 +31,11 @@ class ImageGeneratorTest {
 
     @Test
     public void createFromImage() throws URISyntaxException, IOException {
-        ImageGenerator generator=new ImageGenerator();
+        MazeFromImageGenerator generator=new MazeFromImageGenerator();
         URL resource = getClass().getResource("maze_round_1.jpg");
         Assertions.assertNotNull(resource);
         Path imageFile=Paths.get(resource.toURI());
-        Maze mazeFromFile = generator.createFromImage(imageFile);
+        Maze mazeFromFile = generator.createFromImageFile(imageFile);
         Assertions.assertNotNull(mazeFromFile);
         Assertions.assertEquals(20,mazeFromFile.getWidth());
         Assertions.assertEquals(20,mazeFromFile.getWidth());
@@ -43,11 +43,11 @@ class ImageGeneratorTest {
 
     @Test
     public void createFromImage_200x200() throws URISyntaxException, IOException {
-        ImageGenerator generator=new ImageGenerator();
+        MazeFromImageGenerator generator=new MazeFromImageGenerator();
         URL resource = getClass().getResource("200x200.jpg");
         Assertions.assertNotNull(resource);
         Path imageFile=Paths.get(resource.toURI());
-        Maze mazeFromFile = generator.createFromImage(imageFile);
+        Maze mazeFromFile = generator.createFromImageFile(imageFile);
         Assertions.assertNotNull(mazeFromFile);
         Assertions.assertEquals(200,mazeFromFile.getWidth());
         Assertions.assertEquals(200,mazeFromFile.getWidth());
@@ -55,7 +55,7 @@ class ImageGeneratorTest {
 
     @Test
     public void findPixelInImage_simple() throws URISyntaxException, IOException {
-        ImageGenerator generator=new ImageGenerator();
+        MazeFromImageGenerator generator=new MazeFromImageGenerator();
         URL resource = getClass().getResource("maze_round_1.jpg");
         Assertions.assertNotNull(resource);
         Path imageFile=Paths.get(resource.toURI());
@@ -72,7 +72,7 @@ class ImageGeneratorTest {
 
     @Test
     public void coorsAreSimilar_simple(){
-        ImageGenerator generator=new ImageGenerator();
+        MazeFromImageGenerator generator=new MazeFromImageGenerator();
         boolean rc =generator.colorsAreSimilar(new Color(0xFF0000),new Color(0xFF0000));
         Assertions.assertTrue(rc);
         rc =generator.colorsAreSimilar(new Color(0xFF00FF),new Color(0xFF00FF));

@@ -1,7 +1,7 @@
 package de.tkunkel.maze.web;
 
 import com.google.gson.Gson;
-import de.tkunkel.maze.generator.ImageGenerator;
+import de.tkunkel.maze.generator.MazeFromImageGenerator;
 import de.tkunkel.maze.generator.MazeGenerator;
 import de.tkunkel.maze.generator.RectangleGenerator;
 import de.tkunkel.maze.output.RenderHtml;
@@ -30,20 +30,20 @@ public class GenerateController {
 
     private final DijkstraSolver dijkstraSolver;
     private final RectangleGenerator generator;
-    private final ImageGenerator imageGenerator;
+    private final MazeFromImageGenerator mazeFromImageGenerator;
     private final MazeGenerator mazeGenerator;
     private final RenderHtml renderer;
     private final RenderImage renderImage;
 
     public GenerateController(DijkstraSolver dijkstraSolver,
                               RectangleGenerator generator,
-                              ImageGenerator imageGenerator,
+                              MazeFromImageGenerator mazeFromImageGenerator,
                               MazeGenerator mazeGenerator,
                               RenderHtml renderer,
                               RenderImage renderImage) {
         this.dijkstraSolver = dijkstraSolver;
         this.generator = generator;
-        this.imageGenerator = imageGenerator;
+        this.mazeFromImageGenerator = mazeFromImageGenerator;
         this.mazeGenerator = mazeGenerator;
         this.renderer = renderer;
         this.renderImage = renderImage;
@@ -79,7 +79,7 @@ public class GenerateController {
     )
     public @ResponseBody String fromImage() throws IOException {
         Path imageFile = Paths.get("E:\\IdeaProjects\\maze\\examples\\maze_round_1.jpg");
-        Maze maze = imageGenerator.createFromImage(imageFile);
+        Maze maze = mazeFromImageGenerator.createFromImageFile(imageFile);
         mazeGenerator.fill(maze);
         dijkstraSolver.solve(maze);
         return renderer.renderToString(maze);
@@ -92,12 +92,13 @@ public class GenerateController {
     )
     public @ResponseBody byte[] fromImageToImage() throws IOException {
         Path imageFile = Paths.get("E:\\IdeaProjects\\maze\\examples\\maze_round_1.jpg");
-        Maze maze = imageGenerator.createFromImage(imageFile);
+        Maze maze = mazeFromImageGenerator.createFromImageFile(imageFile);
         mazeGenerator.fill(maze);
         dijkstraSolver.solve(maze);
 
         String format = "JPG";
-        BufferedImage bi = renderImage.render(maze, 25, 4, false);
+        BufferedImage bi = renderImage.render(maze, 25, 4);
+        bi = renderImage.renderSolution(bi, maze, 25, 4);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(bi, format, baos);
 
@@ -143,20 +144,20 @@ public class GenerateController {
     public @ResponseBody String forWeb(@RequestPart(value = "sourceImage") final MultipartFile aFile) throws IOException {
         Path path = Path.of(multipartToFile(aFile).toURI());
         BufferedImage read = ImageIO.read(path.toFile());
-        if ((read.getWidth() > 300) || (read.getHeight() > 300)) {
-            throw new IOException("Image too big, max width/height=300 pixels");
+        if ((read.getWidth() > 500) || (read.getHeight() > 500)) {
+            throw new IOException("Image too big, max width/height=500 pixels");
         }
 
-        Maze maze = imageGenerator.createFromImage(path);
+        Maze maze = mazeFromImageGenerator.createFromImageFile(path);
         mazeGenerator.fill(maze);
 
         String format = "JPG";
-        BufferedImage bi = renderImage.render(maze, 25, 4, false);
+        BufferedImage bi = renderImage.render(maze, 25, 4);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(bi, format, baos);
 
         dijkstraSolver.solve(maze);
-        BufferedImage biSolution = renderImage.render(maze, 25, 4, true);
+        BufferedImage biSolution = renderImage.renderSolution(bi, maze, 25, 4);
         ByteArrayOutputStream baosSolution = new ByteArrayOutputStream();
         ImageIO.write(biSolution, format, baosSolution);
 

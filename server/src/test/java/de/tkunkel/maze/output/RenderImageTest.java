@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.StopWatch;
 
+import java.awt.image.BufferedImage;
+
 class RenderImageTest {
 
     @Test
@@ -25,7 +27,8 @@ class RenderImageTest {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        renderImage.render(maze,50,1,false);
+        BufferedImage image = renderImage.render(maze, 50, 1);
+        BufferedImage mazeImageWithSolution = renderImage.renderSolution(image, maze, 50, 1);
 
         Assertions.assertNotNull(maze);
         stopWatch.stop();

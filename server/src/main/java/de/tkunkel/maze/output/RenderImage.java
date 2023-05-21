@@ -9,14 +9,34 @@ import java.awt.image.BufferedImage;
 
 @Service
 public class RenderImage {
+    public static BufferedImage copyImage(BufferedImage source) {
+        BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+        Graphics g = b.getGraphics();
+        g.drawImage(source, 0, 0, null);
+        g.dispose();
+        return b;
+    }
 
-    public BufferedImage render(Maze maze, int sizeOfCell, int widthOfWall, boolean renderSolutionInfo) {
-        BufferedImage img = new BufferedImage(maze.getWidth() * sizeOfCell+widthOfWall, maze.getHeight() * sizeOfCell+widthOfWall, BufferedImage.TYPE_INT_RGB);
+    public BufferedImage renderSolution(BufferedImage mazeImageWithoutSolution, Maze maze, int sizeOfCell, int widthOfWall) {
+        BufferedImage mazeImageWithSolution = copyImage(mazeImageWithoutSolution);
+        for (int x = 0; x < maze.getWidth(); x++) {
+            for (int y = 0; y < maze.getHeight(); y++) {
+                Cell cell = maze.getCell(x, y);
+                if (cell.isPartOfSolution()) {
+                    paintCell(maze, mazeImageWithSolution, cell, sizeOfCell, widthOfWall, true);
+                }
+            }
+        }
+        return mazeImageWithSolution;
+    }
+
+    public BufferedImage render(Maze maze, int sizeOfCell, int widthOfWall) {
+        BufferedImage img = new BufferedImage(maze.getWidth() * sizeOfCell + widthOfWall, maze.getHeight() * sizeOfCell + widthOfWall, BufferedImage.TYPE_INT_RGB);
 
         for (int x = 0; x < maze.getWidth(); x++) {
             for (int y = 0; y < maze.getHeight(); y++) {
                 Cell cell = maze.getCell(x, y);
-                paintCell(maze, img, cell, sizeOfCell, widthOfWall, renderSolutionInfo);
+                paintCell(maze, img, cell, sizeOfCell, widthOfWall, false);
             }
         }
         return img;
@@ -29,19 +49,19 @@ public class RenderImage {
         Graphics g = img.getGraphics();
         if (cell.isBlocker()) {
             g.setColor(Color.DARK_GRAY);
-            fillRect(g,x, y, x + sizeOfCell, y + sizeOfCell);
+            fillRect(g, x, y, x + sizeOfCell, y + sizeOfCell);
         } else {
             g.setColor(Color.WHITE);
-            fillRect(g,x, y, x + sizeOfCell, y + sizeOfCell);
+            fillRect(g, x, y, x + sizeOfCell, y + sizeOfCell);
             if (cell.getLocation().equals(maze.getStart())) {
                 g.setColor(Color.RED);
-                fillRect(g,x, y, x + sizeOfCell, y + sizeOfCell);
+                fillRect(g, x, y, x + sizeOfCell, y + sizeOfCell);
             } else if (cell.getLocation().equals(maze.getFinish())) {
                 g.setColor(Color.GREEN);
-                fillRect(g,x, y, x + sizeOfCell, y + sizeOfCell);
+                fillRect(g, x, y, x + sizeOfCell, y + sizeOfCell);
             } else if (cell.isPartOfSolution() && renderSolutionInfo) {
                 g.setColor(new Color(0x4D99DA));
-                fillRect(g,x, y, x + sizeOfCell, y + sizeOfCell);
+                fillRect(g, x, y, x + sizeOfCell, y + sizeOfCell);
             }
 
             //walls
@@ -62,8 +82,8 @@ public class RenderImage {
     }
 
     private void fillRect(Graphics g, int x1, int y1, int x2, int y2) {
-        for (int i=0;i<(x2-x1);i++){
-            g.drawLine(x1+i, y1, x2+i, y2);
+        for (int i = 0; i < (x2 - x1); i++) {
+            g.drawLine(x1 + i, y1, x1 + i, y2);
         }
 
     }

@@ -16,24 +16,36 @@ import java.nio.file.Path;
  * Generates the shape of the maze based on an image (pixels).
  */
 @Service
-public class ImageGenerator {
-    private final Logger LOG = LoggerFactory.getLogger(ImageGenerator.class);
+public class MazeFromImageGenerator {
+    private final Logger LOG = LoggerFactory.getLogger(MazeFromImageGenerator.class);
 
-    public Maze createFromImage(Path imageFile) throws IOException {
+    public Maze createFromImage(BufferedImage image) {
+        Color startColor =  Color.RED;
+        Color finishColor =  Color.BLUE;
+        Color finishColor2 = Color.GREEN;
+
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        Location start = findStartInImage(image, startColor);
+        Location finish = findFinishInImage(image, finishColor);
+        if (finish == null) {
+            finishColor = finishColor2;
+            finish = findFinishInImage(image, finishColor);
+        }
+        Maze maze = new Maze(width, height, start, finish);
+        Color spaceColor = Color.WHITE;
+        markBlockers(image, maze, spaceColor, startColor, finishColor);
+        return maze;
+    }
+
+    public Maze createFromImageFile(Path imageFile) throws IOException {
         BufferedImage image = ImageIO.read(imageFile.toFile());
         int width = image.getWidth();
         int height = image.getHeight();
         LOG.info("Reading image " + imageFile.getFileName() + " with width=" + width + ",height=" + height);
 
-        Color startColor = new Color(0xFF0000);
-        Color finishColor = new Color(0x0000FF);
-
-        Location start = findStartInImage(image, startColor);
-        Location finish = findFinishInImage(image, finishColor);
-        Maze maze = new Maze(width, height, start, finish);
-        Color spaceColor = Color.WHITE;
-        markBlockers(image, maze, spaceColor, startColor, finishColor);
-        return maze;
+        return createFromImage(image);
     }
 
     private void markBlockers(BufferedImage image, Maze maze, Color spaceColor, Color startColor, Color finishColor) {
@@ -76,7 +88,7 @@ public class ImageGenerator {
         int wishR = color.getRed();
         int wishG = color.getGreen();
         int wishB = color.getBlue();
-        int threshold =100;
+        int threshold = 100;
 
         int width = image.getWidth();
         int height = image.getHeight();
