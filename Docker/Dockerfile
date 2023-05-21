@@ -2,7 +2,7 @@ FROM ubuntu:22.04 as buildstage
 
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION 18.10
-ARG MAVEN_VERSION=3.8.7
+ARG MAVEN_VERSION=3.9.2
 
 
 RUN mkdir -p /project/server

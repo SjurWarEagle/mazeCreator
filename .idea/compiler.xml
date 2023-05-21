@@ -8,11 +8,11 @@
         <outputRelativeToContentRoot value="true" />
         <module name="parent" />
         <module name="server" />
+        <module name="mazeCreator" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="maze" target="17" />
-      <module name="mazeCreator" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
