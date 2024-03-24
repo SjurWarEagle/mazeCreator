@@ -30,6 +30,19 @@ public class RenderImage {
         return mazeImageWithSolution;
     }
 
+    public BufferedImage renderSolutionProgress(BufferedImage mazeImageWithoutSolution, Maze maze, int sizeOfCell, int widthOfWall) {
+        BufferedImage mazeImageWithSolution = copyImage(mazeImageWithoutSolution);
+        for (int x = 0; x < maze.getWidth(); x++) {
+            for (int y = 0; y < maze.getHeight(); y++) {
+                Cell cell = maze.getCell(x, y);
+//                if (cell.isPartOfSolution()) {
+                    paintCellWithDistanceInfo(maze, mazeImageWithSolution, cell, sizeOfCell, cell.getDistanceFromStart());
+//                }
+            }
+        }
+        return mazeImageWithSolution;
+    }
+
     public BufferedImage render(Maze maze, int sizeOfCell, int widthOfWall) {
         BufferedImage img = new BufferedImage(maze.getWidth() * sizeOfCell + widthOfWall, maze.getHeight() * sizeOfCell + widthOfWall, BufferedImage.TYPE_INT_RGB);
 
@@ -42,6 +55,37 @@ public class RenderImage {
         return img;
     }
 
+    private void paintCellWithDistanceInfo(Maze maze, BufferedImage img, Cell cell, int sizeOfCell, int distanceFromStart) {
+        int x = cell.getLocation().getX() * sizeOfCell;
+        int y = cell.getLocation().getY() * sizeOfCell;
+
+        Graphics g = img.getGraphics();
+        if (cell.isBlocker()) {
+            g.setColor(Color.DARK_GRAY);
+            fillRect(g, x, y, x + sizeOfCell, y + sizeOfCell);
+        } else {
+            if (!cell.getLocation().equals(maze.getStart()) && !cell.getLocation().equals(maze.getFinish())) {
+                Color color = new Color(Math.max(1, distanceFromStart), Math.max(0, distanceFromStart), Math.max(0, distanceFromStart));
+                g.setColor(color);
+                fillRect(g, x, y, x + sizeOfCell, y + sizeOfCell);
+            }
+
+            //walls
+            g.setColor(Color.BLACK);
+            if (cell.isNorthWall()) {
+                g.drawLine(x, y, x + sizeOfCell, y);
+            }
+            if (cell.isEastWall()) {
+                g.drawLine(x + sizeOfCell, y, x + sizeOfCell, y + sizeOfCell);
+            }
+            if (cell.isSouthWall()) {
+                g.drawLine(x, y + sizeOfCell, x + sizeOfCell, y + sizeOfCell);
+            }
+            if (cell.isWestWall()) {
+                g.drawLine(x, y, x, y + sizeOfCell);
+            }
+        }
+    }
     private void paintCell(Maze maze, BufferedImage img, Cell cell, int sizeOfCell, int widthOfWall, boolean renderSolutionInfo) {
         int x = cell.getLocation().getX() * sizeOfCell;
         int y = cell.getLocation().getY() * sizeOfCell;

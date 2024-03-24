@@ -44,7 +44,7 @@ public class MazeGenerator {
         while (!stack.isEmpty()) {
             current = stack.pop();
             List<Cell> unvisitedNeighbours = maze.getUnvisitedOrthogonalNeighbours(current);
-            if (unvisitedNeighbours.size() > 0) {
+            if (!unvisitedNeighbours.isEmpty()) {
                 stack.push(current);
                 Cell nextCell = getRandomCell(unvisitedNeighbours);
 
