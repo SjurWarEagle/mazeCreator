@@ -37,6 +37,16 @@ public class Cell {
         }
     }
 
+    public void addWall(Direction direction) {
+        switch (direction) {
+            case NORTH -> this.northWall = true;
+            case EAST -> this.eastWall = true;
+            case SOUTH -> this.southWall = true;
+            case WEST -> this.westWall = true;
+            default -> throw new IllegalStateException("Unexpected value: " + direction);
+        }
+    }
+
     public boolean wasVisited() {
         return visited;
     }
@@ -77,4 +87,18 @@ public class Cell {
         return distanceFromStart;
     }
 
+    @Override
+    public String toString() {
+        return "Cell{" +
+                "northWall=" + northWall +
+                ", eastWall=" + eastWall +
+                ", southWall=" + southWall +
+                ", westWall=" + westWall +
+                ", visited=" + visited +
+                ", blocker=" + blocker +
+                ", partOfSolution=" + partOfSolution +
+                ", location=" + location +
+                ", distanceFromStart=" + distanceFromStart +
+                '}';
+    }
 }

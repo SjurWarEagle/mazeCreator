@@ -2,8 +2,10 @@ package de.tkunkel.maze.output;
 
 import de.tkunkel.maze.generator.EmptyPlaneGenerator;
 import de.tkunkel.maze.generator.MazeGenerator;
+import de.tkunkel.maze.generator.RectangleGenerator;
 import de.tkunkel.maze.solver.DijkstraSolver;
 import de.tkunkel.maze.tiles.TilesetCutter;
+import de.tkunkel.maze.types.Direction;
 import de.tkunkel.maze.types.Location;
 import de.tkunkel.maze.types.Maze;
 import org.junit.jupiter.api.Assertions;
@@ -23,16 +25,20 @@ class RenderTiledImageTest {
         TilesetCutter tilesetCutter = new TilesetCutter();
         tilesetCutter.cutTileSet(tileSetImage, 32);
 
+        RenderImage renderImageVanilla = new RenderImage();
         RenderTiledImage renderImage = new RenderTiledImage(tilesetCutter);
 
         DijkstraSolver solver = new DijkstraSolver();
         Location start = new Location(1, 1);
         Location finish = new Location(9, 9);
 
-        EmptyPlaneGenerator generator = new EmptyPlaneGenerator();
+//        EmptyPlaneGenerator generator = new EmptyPlaneGenerator();
+//        Maze maze = generator.generate(start, finish, 10, 10);
+//        MazeGenerator mazeGenerator = new MazeGenerator();
+//        mazeGenerator.fill(maze);
+        RectangleGenerator generator = new RectangleGenerator(new MazeGenerator());
         Maze maze = generator.generate(start, finish, 10, 10);
-        MazeGenerator mazeGenerator = new MazeGenerator();
-        mazeGenerator.fill(maze);
+
         solver.solve(maze);
 
         StopWatch stopWatch = new StopWatch();
@@ -46,5 +52,8 @@ class RenderTiledImageTest {
 //        Assertions.assertTrue(stopWatch.getTotalTimeMillis() < 2_000, "rendering too slow (" + stopWatch.getTotalTimeMillis() + "ms)");
 
         ImageIO.write(image, "png", new File("D:/IdeaProjects/maze/server/src/test/resources/de/tkunkel/maze/generator/test.png"));
+
+        image = renderImageVanilla.render(maze, 32,1);
+        ImageIO.write(image, "png", new File("D:/IdeaProjects/maze/server/src/test/resources/de/tkunkel/maze/generator/test_vanilla.png"));
     }
 }
